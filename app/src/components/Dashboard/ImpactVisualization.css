@@ -1,0 +1,259 @@
+.impact-visualization {
+    background: var(--card-background);
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Header Section */
+.visualization-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+/* Metric Selector */
+.metric-selector {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.metric-button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    background: var(--background-color);
+    color: var(--secondary-text);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.metric-button:hover {
+    border-color: var(--primary-color);
+    transform: translateY(-1px);
+}
+
+.metric-button.active {
+    background: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+.metric-icon {
+    font-size: 1.25rem;
+}
+
+.metric-label {
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+/* Chart Controls */
+.chart-controls {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.timeframe-selector select {
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    background: var(--background-color);
+    color: var(--primary-text);
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+.chart-type-selector {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.chart-type-button {
+    padding: 0.5rem;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background: var(--background-color);
+    color: var(--secondary-text);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 1.25rem;
+}
+
+.chart-type-button:hover {
+    border-color: var(--primary-color);
+    transform: translateY(-1px);
+}
+
+.chart-type-button.active {
+    background: var(--primary-color-light);
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+/* Chart Container */
+.chart-container {
+    background: var(--background-color);
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+/* Tooltip Styles */
+.impact-tooltip {
+    background: var(--card-background);
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--border-color);
+}
+
+.tooltip-time {
+    color: var(--secondary-text);
+    font-size: 0.9rem;
+    margin: 0 0 0.5rem 0;
+}
+
+.tooltip-metrics {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.tooltip-metric {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.tooltip-metric.cumulative {
+    color: var(--secondary-text);
+    font-size: 0.9rem;
+}
+
+/* Impact Summary */
+.impact-summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.summary-metric {
+    background: var(--background-color);
+    padding: 1rem;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.summary-metric .metric-icon {
+    font-size: 1.5rem;
+}
+
+.metric-details {
+    display: flex;
+    flex-direction: column;
+}
+
+.metric-details .metric-label {
+    color: var(--secondary-text);
+    font-size: 0.9rem;
+}
+
+.metric-details .metric-value {
+    color: var(--primary-text);
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+/* Animation */
+@keyframes chartFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.chart-container {
+    animation: chartFadeIn 0.3s ease-out;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .impact-visualization {
+        padding: 1rem;
+    }
+
+    .visualization-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .metric-selector {
+        justify-content: center;
+    }
+
+    .chart-controls {
+        justify-content: center;
+    }
+
+    .metric-button {
+        flex: 1;
+        justify-content: center;
+    }
+
+    .impact-summary {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+    .chart-container {
+        background: var(--background-color-dark);
+    }
+
+    .impact-tooltip {
+        background: var(--card-background-dark);
+        border-color: var(--border-color-dark);
+    }
+
+    .metric-button.active {
+        background: var(--primary-color-dark);
+    }
+
+    .chart-type-button.active {
+        background: var(--primary-color-dark);
+        color: white;
+    }
+}
+
+/* Chart Customizations */
+.recharts-cartesian-grid-horizontal line,
+.recharts-cartesian-grid-vertical line {
+    stroke: var(--border-color);
+}
+
+.recharts-tooltip-cursor {
+    stroke: var(--primary-color);
+    stroke-width: 1;
+    stroke-dasharray: 3 3;
+}
+
+.recharts-legend-item {
+    color: var(--secondary-text) !important;
+}

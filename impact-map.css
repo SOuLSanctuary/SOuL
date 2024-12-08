@@ -1,0 +1,115 @@
+.impact-map-container {
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 60px); /* Adjust based on your main nav height */
+    background-color: #1a1a1a;
+    color: #ffffff;
+}
+
+.impact-map-header {
+    padding: 1rem 2rem;
+    background-color: rgba(26, 26, 26, 0.9);
+}
+
+.impact-map-content {
+    display: flex;
+    flex: 1;
+    position: relative;
+}
+
+.sidebar-left {
+    width: 250px;
+    padding: 2rem;
+    background-color: rgba(26, 26, 26, 0.9);
+    border-right: 1px solid #333333;
+}
+
+.map-container {
+    flex: 1;
+    background-color: #1a1a1a;
+}
+
+.sidebar-right {
+    width: 300px;
+    padding: 2rem;
+    background-color: rgba(26, 26, 26, 0.9);
+    border-left: 1px solid #333333;
+}
+
+.action-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.action-buttons button {
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    border: none;
+    background-color: #2A9D8F;
+    color: white;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.action-buttons button:hover {
+    opacity: 0.9;
+}
+
+.filters {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.filter-group select {
+    width: 100%;
+    padding: 0.5rem;
+    border-radius: 4px;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    border: 1px solid #333333;
+}
+
+.search-bar input {
+    width: 300px;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    border: 1px solid #333333;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+}
+
+.store-badges {
+    margin-top: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.store-badges img {
+    height: 32px;
+}
+
+.mobile-preview {
+    margin-top: 2rem;
+    text-align: center;
+}
+
+.mobile-preview img {
+    max-width: 100%;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Custom marker style */
+.custom-marker {
+    border: none;
+    background: none;
+}

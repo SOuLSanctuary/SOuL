@@ -1,0 +1,216 @@
+.impact-trends {
+    background: var(--card-background);
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.trends-header {
+    margin-bottom: 2rem;
+}
+
+.trends-header h3 {
+    margin: 0 0 1.5rem 0;
+    color: var(--primary-text);
+    font-size: 1.25rem;
+}
+
+.metric-summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.metric-card {
+    background: var(--background-color);
+    padding: 1rem;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+}
+
+.metric-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.metric-name {
+    color: var(--secondary-text);
+    font-size: 0.9rem;
+}
+
+.trend-indicator {
+    font-size: 0.9rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.trend-indicator.positive {
+    background: var(--success-background);
+    color: var(--success-color);
+}
+
+.trend-indicator.negative {
+    background: var(--error-background);
+    color: var(--error-color);
+}
+
+.trend-indicator.neutral {
+    background: var(--neutral-background);
+    color: var(--neutral-color);
+}
+
+.metric-value {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--primary-text);
+}
+
+.metric-unit {
+    font-size: 0.9rem;
+    color: var(--secondary-text);
+    margin-left: 0.25rem;
+}
+
+.chart-container {
+    margin: 2rem 0;
+    padding: 1rem;
+    background: var(--background-color);
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+}
+
+.trends-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.timeframe-info {
+    color: var(--secondary-text);
+    font-size: 0.9rem;
+}
+
+.timeframe-info strong {
+    color: var(--primary-text);
+}
+
+/* Loading State */
+.impact-trends.loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 400px;
+}
+
+.loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid var(--border-color);
+    border-top-color: var(--primary-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 1rem;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Error State */
+.impact-trends.error {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 400px;
+}
+
+.error-message {
+    color: var(--error-color);
+    text-align: center;
+}
+
+/* Empty State */
+.impact-trends.empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 400px;
+    color: var(--secondary-text);
+    text-align: center;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .impact-trends {
+        padding: 1rem;
+    }
+
+    .metric-summary {
+        grid-template-columns: 1fr;
+    }
+
+    .metric-card {
+        padding: 0.75rem;
+    }
+
+    .metric-value {
+        font-size: 1.25rem;
+    }
+
+    .chart-container {
+        margin: 1rem 0;
+        padding: 0.5rem;
+    }
+}
+
+/* Chart Customizations */
+.recharts-cartesian-grid-horizontal line,
+.recharts-cartesian-grid-vertical line {
+    stroke: var(--border-color);
+    stroke-opacity: 0.2;
+}
+
+.recharts-tooltip-wrapper {
+    outline: none;
+}
+
+.recharts-default-tooltip {
+    background-color: var(--card-background) !important;
+    border: 1px solid var(--border-color) !important;
+    border-radius: 4px !important;
+    padding: 0.5rem !important;
+}
+
+.recharts-tooltip-label {
+    color: var(--primary-text) !important;
+    margin-bottom: 0.25rem !important;
+}
+
+.recharts-tooltip-item {
+    color: var(--secondary-text) !important;
+    padding: 0.25rem 0 !important;
+}
+
+.recharts-legend-item {
+    margin-right: 1.5rem !important;
+}
+
+.recharts-legend-item-text {
+    color: var(--primary-text) !important;
+}
+
+.recharts-active-dot {
+    stroke: var(--card-background) !important;
+    stroke-width: 2;
+}

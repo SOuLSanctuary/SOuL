@@ -1,0 +1,141 @@
+.image-cropper-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.image-cropper-container {
+  width: 90%;
+  max-width: 600px;
+  background: #1a1a1a;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.cropper-container {
+  position: relative;
+  height: 400px;
+  background: #000;
+}
+
+.controls {
+  padding: 1rem;
+  background: #2a2a2a;
+  border-top: 1px solid #333;
+}
+
+.zoom-slider {
+  width: 100%;
+  height: 4px;
+  -webkit-appearance: none;
+  background: #4CAF50;
+  outline: none;
+  border-radius: 2px;
+}
+
+.zoom-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  background: #fff;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.zoom-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.1);
+}
+
+.buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  padding: 1rem;
+  background: #2a2a2a;
+  border-top: 1px solid #333;
+}
+
+.cancel-button,
+.save-button {
+  padding: 0.5rem 1.5rem;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.cancel-button {
+  background: transparent;
+  color: #fff;
+  border: 1px solid #666;
+}
+
+.cancel-button:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.save-button {
+  background: #4CAF50;
+  color: white;
+}
+
+.save-button:hover {
+  background: #45a049;
+}
+
+@media (max-width: 768px) {
+  .image-cropper-container {
+    width: 95%;
+  }
+
+  .cropper-container {
+    height: 300px;
+  }
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .cropper-controls {
+    flex-direction: column;
+    gap: 1rem;
+    padding: 0.75rem;
+  }
+
+  .transform-controls {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .zoom-control {
+    width: 100%;
+  }
+
+  .cropper-buttons {
+    width: 100%;
+  }
+
+  .cropper-buttons button {
+    flex: 1;
+  }
+}
+
+/* Animation keyframes */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}

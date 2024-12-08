@@ -1,0 +1,157 @@
+.app {
+  text-align: center;
+  min-height: 100vh;
+  background-color: #1a1a1a;
+  color: white;
+  padding: 20px;
+}
+
+.app.wallet-not-connected {
+  background: url('../assets/images/Forest background.gif') no-repeat center center fixed;
+  background-size: cover;
+}
+
+.app.wallet-not-connected::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 0;
+}
+
+.app.wallet-not-connected .navigation {
+  position: relative;
+  z-index: 2;
+  background: rgba(26, 26, 26, 0.9);
+}
+
+.app.wallet-not-connected .main-content {
+  position: relative;
+  z-index: 1;
+}
+
+.main-content {
+  padding: 20px;
+  margin-top: 60px;
+}
+
+/* Ensure all content is visible over the background */
+.navigation,
+.main-content {
+  position: relative;
+  z-index: 1;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: #1a1c20;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.nav-brand a {
+  color: #4CAF50;
+  text-decoration: none;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+.nav-links a:hover {
+  background-color: #4CAF50;
+}
+
+.wallet-status {
+  color: #4CAF50;
+  font-size: 0.9rem;
+}
+
+.wallet-button {
+  padding: 10px 20px;
+  margin: 20px;
+  border-radius: 5px;
+  border: none;
+  background-color: #4CAF50;
+  color: white;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s;
+}
+
+.wallet-button:hover {
+  background-color: #45a049;
+}
+
+.wallet-button.connected {
+  background-color: #ff4444;
+}
+
+.wallet-button.connected:hover {
+  background-color: #ff3333;
+}
+
+/* Home page styles */
+.home {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.home h1 {
+  font-size: 2.5rem;
+  color: #4CAF50;
+  margin-bottom: 1rem;
+}
+
+.home p {
+  font-size: 1.2rem;
+  color: #aaa;
+  margin-bottom: 3rem;
+}
+
+.features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  margin-top: 3rem;
+}
+
+.feature {
+  background-color: #1a1c20;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  transition: transform 0.3s;
+}
+
+.feature:hover {
+  transform: translateY(-5px);
+}
+
+.feature h2 {
+  color: #4CAF50;
+  margin-bottom: 1rem;
+}
+
+.feature p {
+  color: #ddd;
+  font-size: 1rem;
+  margin: 0;
+}

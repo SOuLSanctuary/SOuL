@@ -1,0 +1,21 @@
+{
+  "name": "soul-sanctuary",
+  "version": "1.0.0",
+  "description": "SOuL Sanctuary Web Application",
+  "main": "server/src/websocket/index.js",
+  "scripts": {
+    "start": "node server/src/websocket/index.js",
+    "dev": "nodemon server/src/websocket/index.js",
+    "build": "echo 'Add build script if needed'"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "ws": "^8.2.3"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}

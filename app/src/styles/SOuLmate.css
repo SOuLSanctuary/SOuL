@@ -1,0 +1,658 @@
+.soulmate-profile {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  color: #fff;
+}
+
+.connect-wallet-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  text-align: center;
+  padding: 2rem;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 16px;
+  backdrop-filter: blur(8px);
+}
+
+.connect-wallet-container h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: #4CAF50;
+}
+
+.connect-wallet-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+  background: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.connect-wallet-button:hover {
+  background: #45a049;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.2);
+}
+
+.profile-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  backdrop-filter: blur(8px);
+  gap: 2rem;
+}
+
+.wallet-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.wallet-address {
+  font-family: monospace;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+}
+
+.disconnect-button {
+  padding: 0.5rem 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.disconnect-button:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.edit-button, .save-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.edit-button:hover, .save-button:hover {
+  background: #45a049;
+  transform: translateY(-2px);
+}
+
+.profile-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.stat-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.5rem;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  backdrop-filter: blur(8px);
+  transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.stat-icon {
+  font-size: 2rem;
+  color: #4CAF50;
+}
+
+.stat-info h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.stat-info p {
+  margin: 0.5rem 0 0;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 60vh;
+  font-size: 1.2rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* Animation for loading state */
+@keyframes pulse {
+  0% { opacity: 0.6; }
+  50% { opacity: 1; }
+  100% { opacity: 0.6; }
+}
+
+.loading {
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .soulmate-profile {
+    padding: 1rem;
+  }
+  
+  .profile-header {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+  
+  .wallet-info {
+    flex-direction: column;
+  }
+  
+  .stat-card {
+    padding: 1rem;
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .main-info {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .badges,
+  .nfts {
+    grid-column: span 12;
+  }
+}
+
+@media (max-width: 768px) {
+  .soulmate-profile-container {
+    padding: 1rem;
+  }
+
+  .profile-grid {
+    gap: 1rem;
+  }
+
+  .stat-card {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .investment-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .history-item {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+}
+
+/* Animation Effects */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Wallet styles */
+.wallet-content {
+  display: grid;
+  gap: 2rem;
+}
+
+.wallet-info {
+  padding: 1.5rem;
+  background: #2d2d2d;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  color: #ffffff;
+}
+
+.wallet-actions, .staking-actions {
+  background: #2d2d2d;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.transaction-history {
+  background: #2d2d2d;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Achievements styles */
+.achievements-content {
+  display: grid;
+  gap: 2rem;
+}
+
+.achievements-overview {
+  background: #2d2d2d;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.achievements-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+/* NFT Gallery styles */
+.nft-gallery-content {
+  display: grid;
+  gap: 2rem;
+}
+
+.gallery-filters {
+  background: #2d2d2d;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.nft-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1.5rem;
+}
+
+/* Staking styles */
+.staking-content {
+  display: grid;
+  gap: 2rem;
+}
+
+.staking-overview {
+  padding: 1.5rem;
+  background: #2d2d2d;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.staking-stats {
+  color: #ffffff;
+  margin-top: 1rem;
+}
+
+/* Social styles */
+.social-content {
+  display: grid;
+  gap: 2rem;
+}
+
+.social-feed {
+  padding: 1.5rem;
+  background: #2d2d2d;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.social-connections, .social-interactions {
+  background: #2d2d2d;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Common elements */
+p {
+  color: #ffffff;
+  margin-bottom: 1rem;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .soulmate-profile-container {
+    padding: 1rem;
+  }
+
+  .profile-header {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .achievements-grid,
+  .nft-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.profile-info {
+  flex: 1;
+  padding-right: 1rem;
+  margin-bottom: 2rem;
+  padding: 2rem;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 16px;
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.profile-picture-container {
+  flex-shrink: 0;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-right: 1rem;
+}
+
+.profile-picture {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.profile-picture-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: var(--text-color);
+  background: var(--glass-gradient);
+  text-transform: uppercase;
+}
+
+.profile-details {
+  flex-grow: 1;
+}
+
+.preferred-name {
+  margin: 0;
+  font-size: 2rem;
+  color: #4CAF50;
+}
+
+.username {
+  margin: 0.5rem 0;
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.x-account {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #1DA1F2;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.x-account:hover {
+  text-decoration: underline;
+}
+
+.profile-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-left: auto;
+}
+
+.profile-actions button {
+  max-width: fit-content;
+  white-space: nowrap;
+}
+
+.profile-info .edit-button {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.2s ease;
+}
+
+.profile-info .edit-button:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.profile-info .edit-button svg {
+  font-size: 0.9em;
+}
+
+/* Override WalletButton styles in profile context */
+.profile-actions :global(.wallet-button) {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.connect-wallet-container :global(.wallet-button) {
+  margin-top: 1rem;
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+}
+
+.edit-button,
+.disconnect-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.edit-button {
+  background: var(--primary-gradient);
+  color: white;
+}
+
+.disconnect-button {
+  background: var(--error-gradient, linear-gradient(135deg, #ff4b4b, #ff7676));
+  color: white;
+}
+
+.edit-button:hover,
+.disconnect-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.edit-button:active,
+.disconnect-button:active {
+  transform: translateY(0);
+}
+
+.empty-state {
+  text-align: center;
+  padding: 2rem;
+  border: 2px dashed var(--border-color);
+  border-radius: 12px;
+  margin: 1rem 0;
+}
+
+.empty-state p {
+  margin: 0.5rem 0;
+  color: var(--text-secondary);
+}
+
+.empty-state a {
+  color: white;
+  font-weight: bold;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+.empty-state a:hover {
+  opacity: 0.8;
+}
+
+.quest-list {
+  display: grid;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.quest-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: var(--glass-gradient);
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.quest-item.completed {
+  border: 1px solid rgba(76, 175, 80, 0.3);
+  background: linear-gradient(135deg, rgba(76, 175, 80, 0.1), rgba(76, 175, 80, 0.2));
+}
+
+.quest-status {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 1rem;
+  color: var(--text-color);
+}
+
+.quest-item.completed .quest-status {
+  color: #4CAF50;
+}
+
+.quest-info {
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.quest-name {
+  font-weight: 500;
+  color: var(--text-color);
+}
+
+.quest-reward {
+  font-size: 0.9rem;
+  color: #4CAF50;
+  font-weight: bold;
+}
+
+.quest-item.completed .quest-reward {
+  color: #4CAF50;
+}
+
+.wallet-connection {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  backdrop-filter: blur(8px);
+}
+
+.wallet-connection .wallet-button {
+  padding: 0.75rem 2rem;
+  font-size: 1rem;
+  min-width: 200px;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .wallet-connection {
+    padding: 0.75rem;
+  }
+  
+  .wallet-connection .wallet-button {
+    width: 100%;
+    min-width: unset;
+  }
+}
+
+.profile-social {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.profile-social .edit-button {
+  padding: 0.4rem 1rem;
+  font-size: 0.9rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.2s ease;
+}
+
+.profile-social .edit-button:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+@media (max-width: 768px) {
+  .profile-social {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+}

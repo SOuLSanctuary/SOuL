@@ -1,0 +1,213 @@
+.navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  background: #1a1a1a;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  height: 60px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  width: 100%;
+}
+
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  min-width: 200px;
+}
+
+.logo-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  gap: 12px;
+}
+
+.soul-logo {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+}
+
+.brand-name {
+  color: white;
+  font-size: 1.3em;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.nav-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex: 1;
+  margin: 0 20px;
+  position: relative;
+}
+
+.nav-item {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-button {
+  padding: 8px 16px;
+  background: none;
+  border: none;
+  color: #4CAF50;
+  font-weight: 500;
+  cursor: pointer;
+  font-size: 1em;
+  transition: color 0.2s;
+  white-space: nowrap;
+  position: relative;
+  z-index: 99999;
+}
+
+.dropdown-button:hover {
+  color: white;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  min-width: 200px;
+  display: none;
+  padding: 8px 0;
+  z-index: 99999;
+}
+
+.dropdown-menu.active {
+  display: block;
+}
+
+.dropdown-menu a {
+  display: block;
+  padding: 8px 16px;
+  color: #4CAF50;
+  text-decoration: none;
+  transition: all 0.2s;
+  font-size: 0.95em;
+  white-space: nowrap;
+  position: relative;
+  z-index: 99999;
+}
+
+.dropdown-menu a:hover {
+  background: #2a2a2a;
+  color: white;
+}
+
+.dropdown-menu a.active {
+  background: #2E7D32;
+  color: white;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  min-width: 200px;
+  justify-content: flex-end;
+}
+
+.copyright-text {
+  color: #808080;
+  font-size: 0.85em;
+  white-space: nowrap;
+}
+
+.social-links {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.social-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  transition: opacity 0.2s;
+}
+
+.social-icon:hover {
+  opacity: 0.8;
+}
+
+.nav-right button {
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: #2E7D32;
+  color: white;
+  border: none;
+  white-space: nowrap;
+}
+
+.nav-right button:hover {
+  background: #1B5E20;
+}
+
+/* Add margin to main content to account for fixed header */
+.main-content {
+  margin-top: 60px;
+  padding: 20px;
+}
+
+/* Ensure navigation items don't wrap */
+@media screen and (max-width: 1200px) {
+  .navigation {
+    padding: 0 10px;
+  }
+  
+  .nav-center {
+    gap: 5px;
+  }
+  
+  .dropdown-button {
+    padding: 8px 10px;
+    font-size: 0.9em;
+  }
+
+  .brand-name {
+    font-size: 1.1em;
+  }
+}
+
+/* Scrollbar Styling */
+.navigation::-webkit-scrollbar {
+  width: 6px;
+}
+
+.navigation::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.navigation::-webkit-scrollbar-thumb {
+  background: #4CAF50;
+  border-radius: 3px;
+}
+
+.navigation::-webkit-scrollbar-thumb:hover {
+  background: #388E3C;
+}
+
+/* Hide the old wallet button */
+.nav-wallet {
+  display: none;
+}

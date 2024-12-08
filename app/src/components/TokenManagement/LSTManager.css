@@ -1,0 +1,168 @@
+.lst-manager {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.lst-header {
+    margin-bottom: 2rem;
+}
+
+.lst-header h1 {
+    color: #2ecc71;
+    margin-bottom: 1rem;
+}
+
+.stats-overview {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+.stat {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.stat label {
+    color: #666;
+    font-size: 0.875rem;
+}
+
+.stat p {
+    color: #2ecc71;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin: 0.5rem 0 0;
+}
+
+.lst-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+}
+
+.staking-actions {
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.lst-selector {
+    margin-bottom: 2rem;
+}
+
+.lst-selector select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+    margin-top: 0.5rem;
+}
+
+.staking-forms {
+    display: grid;
+    gap: 2rem;
+}
+
+.stake-form, .unstake-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.stake-form input, .unstake-form input {
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.stake-form button, .unstake-form button {
+    background: #2ecc71;
+    color: white;
+    border: none;
+    padding: 0.75rem;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.stake-form button:hover, .unstake-form button:hover {
+    background: #27ae60;
+}
+
+.stake-form button:disabled, .unstake-form button:disabled {
+    background: #95a5a6;
+    cursor: not-allowed;
+}
+
+.staking-overview {
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.staking-chart {
+    margin-top: 1rem;
+    height: 300px;
+}
+
+.lst-balances {
+    grid-column: 1 / -1;
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.balances-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+.balance-card {
+    background: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.balance-card h4 {
+    color: #2ecc71;
+    margin: 0 0 0.5rem;
+}
+
+.balance-card p {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin: 0;
+}
+
+@media (max-width: 768px) {
+    .lst-manager {
+        padding: 1rem;
+    }
+
+    .lst-content {
+        grid-template-columns: 1fr;
+    }
+
+    .stats-overview {
+        grid-template-columns: 1fr;
+    }
+
+    .balances-grid {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    }
+}

@@ -1,0 +1,24 @@
+name: Deploy to DigitalOcean
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Install Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+          
+      - name: Install dependencies
+        run: npm install
+        
+      - name: Build application
+        run: npm run build
+        
+      # Add deployment steps here after setting up DigitalOcean
+      # You'll need to add secrets in GitHub for DigitalOcean authentication
