@@ -2,11 +2,11 @@
   "name": "soul-sanctuary",
   "version": "1.0.0",
   "description": "SOuL Sanctuary Web Application",
-  "main": "server/src/websocket/index.js",
+  "main": "server/src/websocket/WebSocketServer.js",
   "scripts": {
-    "start": "node server/src/websocket/index.js",
-    "dev": "nodemon server/src/websocket/index.js",
-    "build": "echo 'Add build script if needed'"
+    "start": "node server/src/websocket/WebSocketServer.js",
+    "build": "cd app && npm install && npm run build",
+    "dev": "nodemon server/src/websocket/WebSocketServer.js"
   },
   "engines": {
     "node": ">=14.0.0"
