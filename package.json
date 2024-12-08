@@ -14,10 +14,12 @@
   },
   "dependencies": {
     "express": "^4.17.1",
-    "ws": "^8.2.3",
     "jsonwebtoken": "^9.0.0",
+    "path": "^0.12.7",
     "uuid": "^9.0.0",
-    "path": "^0.12.7"
+    "winston": "^3.17.0",
+    "winston-papertrail": "^1.0.5",
+    "ws": "^8.2.3"
   },
   "devDependencies": {
     "nodemon": "^2.0.15"
