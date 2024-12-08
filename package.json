@@ -2,11 +2,11 @@
   "name": "soul-sanctuary",
   "version": "1.0.0",
   "description": "SOuL Sanctuary Web Application",
-  "main": "server/src/websocket/WebSocketServer.js",
+  "main": "server/src/server.js",
   "scripts": {
-    "start": "node server/src/websocket/WebSocketServer.js",
+    "start": "node server/src/server.js",
     "build": "cd app && npm install --legacy-peer-deps && npm run build",
-    "dev": "nodemon server/src/websocket/WebSocketServer.js",
+    "dev": "nodemon server/src/server.js",
     "postinstall": "cd app && npm install --legacy-peer-deps"
   },
   "engines": {
@@ -16,7 +16,8 @@
     "express": "^4.17.1",
     "ws": "^8.2.3",
     "jsonwebtoken": "^9.0.0",
-    "uuid": "^9.0.0"
+    "uuid": "^9.0.0",
+    "path": "^0.12.7"
   },
   "devDependencies": {
     "nodemon": "^2.0.15"
