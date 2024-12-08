@@ -5,8 +5,9 @@
   "main": "server/src/websocket/WebSocketServer.js",
   "scripts": {
     "start": "node server/src/websocket/WebSocketServer.js",
-    "build": "cd app && npm install && npm run build",
-    "dev": "nodemon server/src/websocket/WebSocketServer.js"
+    "build": "cd app && npm install --legacy-peer-deps && npm run build",
+    "dev": "nodemon server/src/websocket/WebSocketServer.js",
+    "postinstall": "cd app && npm install --legacy-peer-deps"
   },
   "engines": {
     "node": ">=14.0.0"
