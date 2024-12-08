@@ -1,0 +1,35 @@
+name: soul-sanctuary
+services:
+- name: web
+  github:
+    branch: master
+    deploy_on_push: true
+    repo: SOuLSanctuary/SOuL
+  http_port: 3000
+  instance_count: 1
+  instance_size_slug: basic-xxs
+  routes:
+  - path: /
+  envs:
+  - key: NODE_ENV
+    value: production
+    scope: RUN_TIME
+  domains:
+  - domain: soulsanctuary.cloud
+    type: PRIMARY
+    zone: soulsanctuary.cloud
+  cors:
+  - allow_origins:
+    - "https://soulsanctuary.cloud"
+    allow_methods:
+    - GET
+    - POST
+    - PUT
+    - DELETE
+    - OPTIONS
+    allow_headers:
+    - Accept
+    - Authorization
+    - Content-Type
+    max_age: "86400"
+  https_only: true

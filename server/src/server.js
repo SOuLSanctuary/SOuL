@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const http = require('http');
+const https = require('https');
 const WebSocketServer = require('./websocket/WebSocketServer');
 const { logInfo, logError, logWarning } = require('./utils/logger');
 
@@ -14,6 +15,25 @@ app.use((err, req, res, next) => {
     error: 'Internal Server Error',
     message: process.env.NODE_ENV === 'development' ? err.message : 'Something went wrong'
   });
+});
+
+// Force HTTPS redirect
+app.use((req, res, next) => {
+  if (process.env.NODE_ENV === 'production' && !req.secure) {
+    if (req.headers['x-forwarded-proto'] !== 'https') {
+      return res.redirect('https://' + req.headers.host + req.url);
+    }
+  }
+  next();
+});
+
+// Security headers
+app.use((req, res, next) => {
+  res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.setHeader('X-Frame-Options', 'SAMEORIGIN');
+  res.setHeader('X-XSS-Protection', '1; mode=block');
+  next();
 });
 
 // Health check endpoint
