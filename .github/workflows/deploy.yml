@@ -23,16 +23,12 @@ jobs:
         run: npm run build
         env:
           NODE_ENV: production
-          PAPERTRAIL_HOST: ${{ secrets.PAPERTRAIL_HOST }}
-          PAPERTRAIL_PORT: ${{ secrets.PAPERTRAIL_PORT }}
-        
-      - name: Deploy to DigitalOcean
-        uses: digitalocean/app-action@v1
+          
+      - name: Install doctl
+        uses: digitalocean/action-doctl@v2
         with:
-          app_name: ${{ secrets.DIGITALOCEAN_APP_NAME }}
           token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
-          images: '[{"name":"soul-sanctuary","registry":"registry.digitalocean.com","registry_type":"DOCR","dockerfile_path":"Dockerfile"}]'
-        env:
-          NODE_ENV: production
-          PAPERTRAIL_HOST: ${{ secrets.PAPERTRAIL_HOST }}
-          PAPERTRAIL_PORT: ${{ secrets.PAPERTRAIL_PORT }}
+          
+      - name: Deploy to DigitalOcean App Platform
+        run: |
+          doctl apps create-deployment ${{ secrets.DIGITALOCEAN_APP_NAME }} --wait
