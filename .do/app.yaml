@@ -18,6 +18,7 @@ services:
   - domain: soulsanctuary.cloud
     type: PRIMARY
     zone: soulsanctuary.cloud
+    minimum_tls_version: "1.2"
   cors:
   - allow_origins:
     - "https://soulsanctuary.cloud"
@@ -31,5 +32,10 @@ services:
     - Accept
     - Authorization
     - Content-Type
+    - Origin
+    - X-Requested-With
     max_age: "86400"
   https_only: true
+  ssl:
+    enforce_https: true
+    min_tls_version: "1.2"
