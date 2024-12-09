@@ -41,7 +41,10 @@ app.get('/health', (req, res) => {
   const health = { 
     status: 'healthy', 
     timestamp: new Date().toISOString(),
-    uptime: process.uptime()
+    uptime: process.uptime(),
+    version: process.version,
+    memory: process.memoryUsage(),
+    environment: process.env.NODE_ENV || 'development'
   };
   logInfo('Health check passed', health);
   res.status(200).json(health);
