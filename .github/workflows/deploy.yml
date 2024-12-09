@@ -31,4 +31,11 @@ jobs:
           
       - name: Deploy to DigitalOcean App Platform
         run: |
-          doctl apps create-deployment ${{ secrets.DIGITALOCEAN_APP_NAME }} --wait
+          # Get the app ID using the app name
+          APP_ID=$(doctl apps list --format ID --no-header | head -n 1)
+          if [ -z "$APP_ID" ]; then
+            echo "Error: Could not find app ID"
+            exit 1
+          fi
+          echo "Deploying to app ID: $APP_ID"
+          doctl apps create-deployment $APP_ID --wait
