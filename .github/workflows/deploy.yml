@@ -1,7 +1,10 @@
 name: Deploy to DigitalOcean
 on:
   push:
-    branches: [ main, master ]
+    branches: 
+      - master
+      - main
+  workflow_dispatch:
 
 jobs:
   deploy:
@@ -29,13 +32,24 @@ jobs:
         with:
           token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
           
+      - name: List DigitalOcean apps
+        run: doctl apps list
+          
       - name: Deploy to DigitalOcean App Platform
         run: |
-          # Get the app ID using the app name
+          echo "Listing available apps..."
+          doctl apps list
+          
+          echo "Getting app ID..."
           APP_ID=$(doctl apps list --format ID --no-header | head -n 1)
+          
           if [ -z "$APP_ID" ]; then
             echo "Error: Could not find app ID"
             exit 1
           fi
-          echo "Deploying to app ID: $APP_ID"
+          
+          echo "Found app ID: $APP_ID"
+          echo "Creating deployment..."
           doctl apps create-deployment $APP_ID --wait
+          
+          echo "Deployment completed"
