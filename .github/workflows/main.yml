@@ -32,9 +32,11 @@ jobs:
           SESSION_SECRET: ${{ secrets.SESSION_SECRET }}
           COOKIE_SECRET: ${{ secrets.COOKIE_SECRET }}
         run: |
-          npm install --legacy-peer-deps
+          npm ci
           cd app
+          rm -rf node_modules package-lock.json
           npm install --legacy-peer-deps
+          npm install ajv@^8.0.0 ajv-keywords@^5.0.0 --legacy-peer-deps
           DISABLE_ESLINT_PLUGIN=true CI=false npm run build
           cd ..
           
