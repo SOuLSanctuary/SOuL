@@ -2,11 +2,55 @@ const express = require('express');
 const path = require('path');
 const http = require('http');
 const https = require('https');
+const cors = require('cors');
 const WebSocketServer = require('./websocket/WebSocketServer');
 const { logInfo, logError, logWarning } = require('./utils/logger');
+const profileRoutes = require('./routes/profile');
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3001;
+
+// Configure CORS based on environment
+const allowedOrigins = process.env.NODE_ENV === 'production'
+  ? ['https://soulsanctuary.cloud']
+  : ['http://localhost:3000', 'http://localhost:3006'];
+
+app.use(cors({
+  origin: (origin, callback) => {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    
+    if (allowedOrigins.indexOf(origin) === -1) {
+      const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
+      return callback(new Error(msg), false);
+    }
+    return callback(null, true);
+  },
+  credentials: true
+}));
+
+// Parse JSON bodies
+app.use(express.json());
+
+// Security headers
+app.use((req, res, next) => {
+  // CORS headers
+  res.header('Access-Control-Allow-Credentials', 'true');
+  res.header('Access-Control-Allow-Methods', 'GET,HEAD,PUT,PATCH,POST,DELETE');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+  
+  // Security headers
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.setHeader('X-Frame-Options', 'SAMEORIGIN');
+  res.setHeader('X-XSS-Protection', '1; mode=block');
+  
+  // Only add HSTS in production
+  if (process.env.NODE_ENV === 'production') {
+    res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
+  }
+  
+  next();
+});
 
 // Error handling middleware
 app.use((err, req, res, next) => {
@@ -27,14 +71,8 @@ app.use((req, res, next) => {
   next();
 });
 
-// Security headers
-app.use((req, res, next) => {
-  res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
-  res.setHeader('X-Content-Type-Options', 'nosniff');
-  res.setHeader('X-Frame-Options', 'SAMEORIGIN');
-  res.setHeader('X-XSS-Protection', '1; mode=block');
-  next();
-});
+// Register routes
+app.use('/api', profileRoutes);
 
 // Health check endpoint
 app.get('/health', (req, res) => {
@@ -142,3 +180,6 @@ server.listen(port, () => {
     nodeVersion: process.version
   });
 });
+
+process.on('SIGTERM', shutdown);
+process.on('SIGINT', shutdown);

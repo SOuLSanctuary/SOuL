@@ -256,19 +256,25 @@ const SOuLmateProfile = () => {
         setLoading(true);
         setError(null);
         
-        // Update wallet balance from context
-        const walletBalance = tokenBalances.SOL.toFixed(4);
+        // First try to fetch existing profile
+        const existingProfile = await fetchProfile(publicKey.toString());
         
-        // Fetch or create profile
-        const data = await fetchProfile(publicKey.toString());
+        if (existingProfile) {
+          // If profile exists, just update the wallet balance
+          setProfile({
+            ...existingProfile,
+            walletBalance: tokenBalances.SOL.toFixed(4)
+          });
+        } else {
+          // If no profile exists, create a new one with basic info
+          const newProfile = await updateProfile(publicKey.toString(), {
+            walletAddress: publicKey.toString(),
+            walletBalance: tokenBalances.SOL.toFixed(4),
+            createdAt: new Date().toISOString()
+          });
+          setProfile(newProfile);
+        }
         
-        // Update profile with latest wallet balance
-        const updatedProfile = await updateProfile(publicKey.toString(), {
-          ...data,
-          walletBalance
-        });
-        
-        setProfile(updatedProfile);
         setLoading(false);
       } catch (err) {
         console.error('Error loading profile:', err);

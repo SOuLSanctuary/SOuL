@@ -1,0 +1,14 @@
+{
+  "version": 2,
+  "domains": [
+    {
+      "domain": "soulsanctuary.io",
+      "type": "primary"
+    },
+    {
+      "domain": "www.soulsanctuary.io",
+      "type": "redirect",
+      "redirect": "soulsanctuary.io"
+    }
+  ]
+}

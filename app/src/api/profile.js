@@ -1,11 +1,22 @@
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:3001/api';
+const API_BASE_URL = process.env.NODE_ENV === 'development' 
+  ? 'http://localhost:3001'
+  : process.env.REACT_APP_API_URL || 'https://soulsanctuary.cloud';
 
 const handleResponse = async (response) => {
+  console.log('API Response:', {
+    url: response.url,
+    status: response.status,
+    statusText: response.statusText
+  });
+
   if (!response.ok) {
     const error = await response.json().catch(() => ({}));
+    console.error('API Error:', error);
     throw new Error(error.message || 'Network response was not ok');
   }
-  return response.json();
+  const data = await response.json();
+  console.log('API Success:', data);
+  return data;
 };
 
 const addAuthTokenToHeaders = (headers = {}) => {
@@ -16,35 +27,33 @@ const addAuthTokenToHeaders = (headers = {}) => {
   return headers;
 };
 
-// Mock data store for development
-const STORAGE_KEY = 'soulmate_profiles';
-
-const loadProfilesFromStorage = () => {
-  try {
-    const stored = localStorage.getItem(STORAGE_KEY);
-    return stored ? new Map(JSON.parse(stored)) : new Map();
-  } catch (error) {
-    console.error('Error loading profiles from storage:', error);
-    return new Map();
-  }
-};
-
-const saveProfilesToStorage = (profiles) => {
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(Array.from(profiles.entries())));
-  } catch (error) {
-    console.error('Error saving profiles to storage:', error);
-  }
-};
-
-const mockProfiles = loadProfilesFromStorage();
-
 const simulateNetworkDelay = () => new Promise(resolve => setTimeout(resolve, 300));
 
 // Simulated API functions for profile management
 export const checkUsernameAvailability = async (username) => {
   await simulateNetworkDelay();
-  return !Array.from(mockProfiles.values()).some(profile => profile.username === username);
+  try {
+    console.log('Checking username availability:', username);
+    console.log('API URL:', `${API_BASE_URL}/api/profile/check-username`);
+    
+    const response = await fetch(`${API_BASE_URL}/api/profile/check-username`, {
+      method: 'POST',
+      headers: addAuthTokenToHeaders({
+        'Content-Type': 'application/json',
+      }),
+      body: JSON.stringify({ username }),
+    });
+    
+    console.log('Check username availability response:', {
+      status: response.status,
+      statusText: response.statusText
+    });
+    
+    return handleResponse(response);
+  } catch (error) {
+    console.error('Error checking username availability:', error);
+    throw error;
+  }
 };
 
 export const uploadProfileImage = async (imageData) => {
@@ -101,115 +110,119 @@ const calculateProfileXP = (profile) => {
   }
   
   // Profile save XP (if profile exists in storage)
-  if (mockProfiles.has(profile.walletAddress)) {
-    totalXP += XP_REWARDS.PROFILE_SAVE;
-  }
+  // if (mockProfiles.has(profile.walletAddress)) {
+  //   totalXP += XP_REWARDS.PROFILE_SAVE;
+  // }
   
   return totalXP;
 };
 
-export const createProfile = async (profileData) => {
-  await simulateNetworkDelay();
-  
-  // Handle profile picture
-  let profilePicture = null;
-  if (profileData.profilePicture) {
-    try {
-      profilePicture = await uploadProfileImage(profileData.profilePicture);
-    } catch (error) {
-      console.error('Error processing profile picture:', error);
+export const fetchProfile = async (walletAddress) => {
+  try {
+    console.log('Fetching profile for wallet:', walletAddress);
+    console.log('API URL:', `${API_BASE_URL}/api/profile/${walletAddress}`);
+    
+    const response = await fetch(`${API_BASE_URL}/api/profile/${walletAddress}`);
+    console.log('Fetch profile response:', {
+      status: response.status,
+      statusText: response.statusText
+    });
+    
+    if (!response.ok) {
+      if (response.status === 404) {
+        console.log('Profile not found, returning null');
+        return null;
+      }
+      throw new Error('Failed to fetch profile');
     }
+    const data = await response.json();
+    console.log('Fetched profile:', data);
+    return data;
+  } catch (error) {
+    console.error('Error fetching profile:', error);
+    throw error;
   }
-  
-  const profile = {
-    ...profileData,
-    profilePicture,
-    id: Math.random().toString(36).substr(2, 9),
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-    walletBalance: '0',
-    soulXP: '0',
-    badges: [],
-    nfts: []
-  };
+};
 
-  // Calculate initial XP
-  profile.soulXP = calculateProfileXP(profile).toString();
-  
-  mockProfiles.set(profileData.walletAddress, profile);
-  saveProfilesToStorage(mockProfiles);
-  return profile;
+export const createProfile = async (profileData) => {
+  try {
+    console.log('Creating profile:', profileData);
+    console.log('API URL:', `${API_BASE_URL}/api/profile`);
+    
+    const response = await fetch(`${API_BASE_URL}/api/profile`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(profileData),
+    });
+    
+    console.log('Create profile response:', {
+      status: response.status,
+      statusText: response.statusText
+    });
+    
+    if (!response.ok) {
+      throw new Error('Failed to create profile');
+    }
+    
+    const data = await response.json();
+    console.log('Created profile:', data);
+    return data;
+  } catch (error) {
+    console.error('Error creating profile:', error);
+    throw error;
+  }
 };
 
 export const updateProfile = async (walletAddress, profileData) => {
-  await simulateNetworkDelay();
-  
-  // Handle profile picture
-  let updatedProfileData = { ...profileData };
-  if (profileData.profilePicture) {
-    try {
-      updatedProfileData.profilePicture = await uploadProfileImage(profileData.profilePicture);
-    } catch (error) {
-      console.error('Error processing profile picture:', error);
-      delete updatedProfileData.profilePicture;
+  try {
+    console.log('Updating profile for wallet:', walletAddress);
+    console.log('Update data:', profileData);
+    console.log('API URL:', `${API_BASE_URL}/api/profile/${walletAddress}`);
+    
+    const response = await fetch(`${API_BASE_URL}/api/profile/${walletAddress}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(profileData),
+    });
+    
+    console.log('Update profile response:', {
+      status: response.status,
+      statusText: response.statusText
+    });
+    
+    if (!response.ok) {
+      throw new Error('Failed to update profile');
     }
+    
+    const data = await response.json();
+    console.log('Updated profile:', data);
+    return data;
+  } catch (error) {
+    console.error('Error updating profile:', error);
+    throw error;
   }
-  
-  const existingProfile = mockProfiles.get(walletAddress);
-  const updatedProfile = {
-    ...existingProfile,
-    ...updatedProfileData,
-    walletAddress,
-    updatedAt: new Date().toISOString()
-  };
-
-  // Calculate updated XP
-  updatedProfile.soulXP = calculateProfileXP(updatedProfile).toString();
-  
-  mockProfiles.set(walletAddress, updatedProfile);
-  saveProfilesToStorage(mockProfiles);
-  return updatedProfile;
-};
-
-export const fetchProfile = async (walletAddress) => {
-  if (!walletAddress) {
-    throw new Error('Wallet address is required');
-  }
-
-  await simulateNetworkDelay();
-  
-  let profile = mockProfiles.get(walletAddress);
-  
-  // Create default profile if none exists
-  if (!profile) {
-    profile = {
-      walletAddress,
-      preferredName: 'Anonymous',
-      username: '',
-      profilePicture: null,
-      xAccount: '',
-      badges: [],
-      nfts: [],
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-      walletBalance: '0',
-      soulXP: '0'
-    };
-    mockProfiles.set(walletAddress, profile);
-    saveProfilesToStorage(mockProfiles);
-  }
-
-  return profile;
 };
 
 export const verifyXAccount = async (xAccount) => {
   try {
+    console.log('Verifying X account:', xAccount);
+    console.log('API URL:', `${API_BASE_URL}/profile/verify-x`);
+    
     const response = await fetch(`${API_BASE_URL}/profile/verify-x`, {
       method: 'POST',
       headers: addAuthTokenToHeaders({
         'Content-Type': 'application/json',
       }),
       body: JSON.stringify({ xAccount }),
+    });
+    
+    console.log('Verify X account response:', {
+      status: response.status,
+      statusText: response.statusText
     });
     
     if (response.status === 404) {
