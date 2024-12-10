@@ -16,20 +16,16 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18'
+          node-version: '18.x'
           cache: 'npm'
           
-      - name: Install Dependencies
+      - name: Install Dependencies and Build
         run: |
-          npm install
-          cd app && npm install
-        
-      - name: Build
-        working-directory: ./app
-        env:
-          CI: false
-          DISABLE_ESLINT_PLUGIN: true
-        run: npm run build
+          npm install --legacy-peer-deps
+          cd app
+          npm install --legacy-peer-deps
+          DISABLE_ESLINT_PLUGIN=true CI=false npm run build
+          cd ..
           
       - name: Deploy to DigitalOcean
         uses: digitalocean/app_action@main
