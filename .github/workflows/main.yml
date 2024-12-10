@@ -20,9 +20,17 @@ jobs:
           node-version: '18.x'
           cache: 'npm'
           
-      - name: Install Dependencies and Build
+      - name: Install Root Dependencies
+        run: npm install --legacy-peer-deps
+          
+      - name: Install and Build App
         env:
           NODE_ENV: production
+          CI: false
+          HOST: app.soulsanctuary.cloud
+          PORT: 3001
+          API_VERSION: v1
+          CORS_ORIGIN: https://app.soulsanctuary.cloud
           DB_HOST: ${{ secrets.DB_HOST }}
           DB_PORT: ${{ secrets.DB_PORT }}
           DB_NAME: ${{ secrets.DB_NAME }}
@@ -32,11 +40,11 @@ jobs:
           SESSION_SECRET: ${{ secrets.SESSION_SECRET }}
           COOKIE_SECRET: ${{ secrets.COOKIE_SECRET }}
         run: |
-          npm install --legacy-peer-deps
           cd app
           rm -rf node_modules package-lock.json
           npm install --legacy-peer-deps --force
-          DISABLE_ESLINT_PLUGIN=true CI=false NODE_OPTIONS=--max_old_space_size=4096 npm run build
+          npm install --save ajv@8.12.0 ajv-keywords@5.1.0 ajv-formats@2.1.1 schema-utils@4.2.0
+          NODE_OPTIONS="--max-old-space-size=4096" DISABLE_ESLINT_PLUGIN=true npm run build
           cd ..
           
       - name: Deploy to DigitalOcean
