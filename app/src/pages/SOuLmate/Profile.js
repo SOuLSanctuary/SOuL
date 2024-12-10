@@ -249,60 +249,85 @@ const SOuLmateProfile = () => {
     const loadProfile = async () => {
       if (!publicKey || !connected) {
         setLoading(false);
+        setProfile(null);
+        setError(null);
         return;
       }
       
       try {
         setLoading(true);
         setError(null);
+        console.log('Loading profile for wallet:', publicKey.toString());
         
         // Update wallet balance from context
-        const walletBalance = tokenBalances.SOL.toFixed(4);
+        const walletBalance = tokenBalances?.SOL?.toFixed(4) || '0.0000';
         
         // Fetch profile
-        let data = await fetchProfile(publicKey.toString());
+        const data = await fetchProfile(publicKey.toString());
+        console.log('Profile data:', data);
         
-        // If profile doesn't exist, create one
-        if (!data) {
-          data = await createProfile({
+        if (data.isNewProfile) {
+          console.log('Creating new profile...');
+          const newProfile = await createProfile({
             walletAddress: publicKey.toString(),
             walletBalance,
-            username: `user_${publicKey.toString().slice(0, 8)}`, // Temporary username
-            preferredName: 'SOuL Explorer' // Default name
+            username: `user_${publicKey.toString().slice(0, 8)}`,
+            preferredName: 'SOuL Explorer',
+            description: '',
+            xAccount: '',
+            profilePicture: ''
           });
+          console.log('New profile created:', newProfile);
+          setProfile(newProfile);
           setIsEditing(true); // Automatically open edit form for new users
+        } else {
+          // Update profile with latest wallet balance if it changed
+          if (data.walletBalance !== walletBalance) {
+            console.log('Updating wallet balance...');
+            const updatedProfile = await updateProfile(publicKey.toString(), {
+              ...data,
+              walletBalance
+            });
+            console.log('Profile updated with new balance:', updatedProfile);
+            setProfile(updatedProfile);
+          } else {
+            setProfile(data);
+          }
         }
         
-        // Update profile with latest wallet balance
-        const updatedProfile = await updateProfile(publicKey.toString(), {
-          ...data,
-          walletBalance
-        });
-        
-        setProfile(updatedProfile);
         setLoading(false);
       } catch (err) {
-        console.error('Error loading profile:', err);
-        setError('Unable to load profile. Please try again.');
+        console.error('Error in loadProfile:', err);
+        setError(err.message || 'Unable to load profile. Please try again.');
         setLoading(false);
+        setProfile(null);
       }
     };
 
     loadProfile();
-  }, [publicKey, connected, tokenBalances.SOL]);
+  }, [publicKey, connected, tokenBalances?.SOL]);
 
   const handleProfileUpdate = async (formData) => {
     try {
+      setLoading(true);
+      setError(null);
       const walletAddress = publicKey.toString();
+      console.log('Updating profile with form data:', formData);
+      
       const updatedProfile = await updateProfile(walletAddress, {
         ...formData,
-        walletBalance: tokenBalances.SOL.toFixed(4)
+        walletBalance: tokenBalances?.SOL?.toFixed(4) || '0.0000'
       });
+      
+      console.log('Profile updated successfully:', updatedProfile);
       setProfile(updatedProfile);
       setIsEditing(false);
+      setLoading(false);
     } catch (err) {
-      console.error('Error updating profile:', err);
-      throw new Error('Failed to update profile');
+      console.error('Error in handleProfileUpdate:', err);
+      setError(err.message || 'Failed to update profile');
+      setLoading(false);
+      throw err;
     }
   };
 

@@ -1,19 +1,22 @@
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'https://app.soulsanctuary.cloud';
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8080';
 
 const handleResponse = async (response) => {
   if (!response.ok) {
     const error = await response.json().catch(() => ({}));
-    throw new Error(error.message || 'Network response was not ok');
+    throw new Error(error.message || response.statusText || 'Network response was not ok');
   }
   return response.json();
 };
 
 const addAuthTokenToHeaders = (headers = {}) => {
-  const token = window.localStorage.getItem('auth_token');
+  const token = localStorage.getItem('auth_token');
   if (token) {
     headers.Authorization = `Bearer ${token}`;
   }
-  return headers;
+  return {
+    'Content-Type': 'application/json',
+    ...headers
+  };
 };
 
 const simulateNetworkDelay = () => new Promise(resolve => setTimeout(resolve, 300));
@@ -22,6 +25,7 @@ const simulateNetworkDelay = () => new Promise(resolve => setTimeout(resolve, 30
 export const checkUsernameAvailability = async (username) => {
   await simulateNetworkDelay();
   try {
+    console.log('Checking username availability:', username);
     const response = await fetch(`${API_BASE_URL}/api/profile/check-username`, {
       method: 'POST',
       headers: addAuthTokenToHeaders({
@@ -29,7 +33,9 @@ export const checkUsernameAvailability = async (username) => {
       }),
       body: JSON.stringify({ username }),
     });
-    return handleResponse(response);
+    const data = await handleResponse(response);
+    console.log('Username availability result:', data);
+    return data;
   } catch (error) {
     console.error('Error checking username availability:', error);
     throw error;
@@ -99,16 +105,14 @@ const calculateProfileXP = (profile) => {
 
 export const fetchProfile = async (walletAddress) => {
   try {
+    console.log('Fetching profile for wallet:', walletAddress);
     const response = await fetch(`${API_BASE_URL}/api/profile/${walletAddress}`, {
+      method: 'GET',
       headers: addAuthTokenToHeaders()
     });
-    if (!response.ok) {
-      if (response.status === 404) {
-        return null; // Profile doesn't exist
-      }
-      throw new Error('Failed to fetch profile');
-    }
-    return await response.json();
+    const data = await handleResponse(response);
+    console.log('Profile data received:', data);
+    return data;
   } catch (error) {
     console.error('Error fetching profile:', error);
     throw error;
@@ -117,20 +121,15 @@ export const fetchProfile = async (walletAddress) => {
 
 export const createProfile = async (profileData) => {
   try {
+    console.log('Creating profile with data:', profileData);
     const response = await fetch(`${API_BASE_URL}/api/profile`, {
       method: 'POST',
-      headers: addAuthTokenToHeaders({
-        'Content-Type': 'application/json',
-      }),
-      body: JSON.stringify(profileData),
+      headers: addAuthTokenToHeaders(),
+      body: JSON.stringify(profileData)
     });
-    
-    if (!response.ok) {
-      const error = await response.json().catch(() => ({}));
-      throw new Error(error.message || 'Failed to create profile');
-    }
-    
-    return await response.json();
+    const data = await handleResponse(response);
+    console.log('Profile created:', data);
+    return data;
   } catch (error) {
     console.error('Error creating profile:', error);
     throw error;
@@ -139,20 +138,15 @@ export const createProfile = async (profileData) => {
 
 export const updateProfile = async (walletAddress, profileData) => {
   try {
+    console.log('Updating profile for wallet:', walletAddress, 'with data:', profileData);
     const response = await fetch(`${API_BASE_URL}/api/profile/${walletAddress}`, {
       method: 'PUT',
-      headers: addAuthTokenToHeaders({
-        'Content-Type': 'application/json',
-      }),
-      body: JSON.stringify(profileData),
+      headers: addAuthTokenToHeaders(),
+      body: JSON.stringify(profileData)
     });
-
-    if (!response.ok) {
-      const error = await response.json().catch(() => ({}));
-      throw new Error(error.message || 'Failed to update profile');
-    }
-
-    return await response.json();
+    const data = await handleResponse(response);
+    console.log('Profile updated:', data);
+    return data;
   } catch (error) {
     console.error('Error updating profile:', error);
     throw error;
@@ -161,6 +155,7 @@ export const updateProfile = async (walletAddress, profileData) => {
 
 export const verifyXAccount = async (xAccount) => {
   try {
+    console.log('Verifying X account:', xAccount);
     const response = await fetch(`${API_BASE_URL}/profile/verify-x`, {
       method: 'POST',
       headers: addAuthTokenToHeaders({
@@ -168,11 +163,12 @@ export const verifyXAccount = async (xAccount) => {
       }),
       body: JSON.stringify({ xAccount }),
     });
-    
     if (response.status === 404) {
       return { verified: false };
     }
-    return handleResponse(response);
+    const data = await handleResponse(response);
+    console.log('X account verification result:', data);
+    return data;
   } catch (error) {
     console.error('Error verifying X account:', error);
     throw error;
