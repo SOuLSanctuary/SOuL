@@ -3,7 +3,7 @@ name: Deploy to DigitalOcean
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   deploy:
@@ -27,7 +27,7 @@ jobs:
         run: |
           ssh root@${{ secrets.DROPLET_IP }} '
             cd /var/www/soulsanctuary &&
-            git pull origin main &&
+            git pull origin master &&
             cd server &&
             npm install &&
             pm2 restart soulsanctuary-backend
