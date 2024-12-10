@@ -1,4 +1,5 @@
 name: soul-sanctuary
+region: sgp1
 services:
 - name: web
   github:
@@ -8,20 +9,47 @@ services:
   http_port: 3000
   instance_count: 1
   instance_size_slug: basic-xxs
+  health_check:
+    http_path: /health
+    initial_delay_seconds: 30
+    period_seconds: 60
   routes:
   - path: /
   envs:
   - key: NODE_ENV
     value: production
     scope: RUN_TIME
+  - key: HOST
+    value: app.soulsanctuary.cloud
+    scope: RUN_TIME
+  - key: API_VERSION
+    value: v1
+    scope: RUN_TIME
+  - key: CORS_ORIGIN
+    value: https://app.soulsanctuary.cloud
+    scope: RUN_TIME
+  - key: LOG_LEVEL
+    value: error
+    scope: RUN_TIME
+  - key: ENABLE_LOGGING
+    value: "true"
+    scope: RUN_TIME
+  - key: SSL_ENABLED
+    value: "true"
+    scope: RUN_TIME
   domains:
-  - domain: soulsanctuary.cloud
+  - domain: app.soulsanctuary.cloud
     type: PRIMARY
+    zone: soulsanctuary.cloud
+    minimum_tls_version: "1.2"
+  - domain: soulsanctuary.cloud
+    type: ALIAS
     zone: soulsanctuary.cloud
     minimum_tls_version: "1.2"
   cors:
   - allow_origins:
     - "https://soulsanctuary.cloud"
+    - "https://app.soulsanctuary.cloud"
     allow_methods:
     - GET
     - POST
@@ -29,13 +57,13 @@ services:
     - DELETE
     - OPTIONS
     allow_headers:
-    - Accept
     - Authorization
     - Content-Type
-    - Origin
-    - X-Requested-With
     max_age: "86400"
-  https_only: true
-  ssl:
-    enforce_https: true
-    min_tls_version: "1.2"
+  alerts:
+  - rule: DEPLOYMENT_FAILED
+  - rule: DOMAIN_FAILED
+  - rule: CPU_UTILIZATION
+    value: 90
+    window: TEN_MINUTES
+    operator: GREATER_THAN

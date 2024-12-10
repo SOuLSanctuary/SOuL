@@ -3,16 +3,24 @@ const Web3 = require('web3');
 
 const authMiddleware = async (req, res, next) => {
   try {
+    // Get token from header
     const token = req.header('Authorization')?.replace('Bearer ', '');
+    
     if (!token) {
-      throw new Error('No authentication token provided');
+      return res.status(401).json({ error: 'No authentication token, authorization denied' });
     }
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded;
-    next();
-  } catch (error) {
-    res.status(401).json({ error: 'Please authenticate' });
+    try {
+      // Verify token
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      req.user = decoded;
+      next();
+    } catch (err) {
+      res.status(401).json({ error: 'Token is not valid' });
+    }
+  } catch (err) {
+    console.error('Auth middleware error:', err);
+    res.status(500).json({ error: 'Server error' });
   }
 };
 
