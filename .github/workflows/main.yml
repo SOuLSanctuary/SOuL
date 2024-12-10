@@ -40,8 +40,8 @@ jobs:
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
           SESSION_SECRET: ${{ secrets.SESSION_SECRET }}
           COOKIE_SECRET: ${{ secrets.COOKIE_SECRET }}
-          SSL_KEY_PATH: /etc/letsencrypt/live/app.soulsanctuary.cloud/privkey.pem
-          SSL_CERT_PATH: /etc/letsencrypt/live/app.soulsanctuary.cloud/fullchain.pem
+          SSL_KEY_PATH: /etc/ssl/private/app.soulsanctuary.cloud.key
+          SSL_CERT_PATH: /etc/ssl/certs/app.soulsanctuary.cloud.crt
           REACT_APP_API_URL: https://app.soulsanctuary.cloud
           REACT_APP_WS_URL: wss://app.soulsanctuary.cloud
         run: |
@@ -55,6 +55,22 @@ jobs:
           npm install --legacy-peer-deps
           cd ../..
           cd ..
+          
+      - name: Install SSL Certificate
+        env:
+          SSL_PRIVATE_KEY: ${{ secrets.SSL_PRIVATE_KEY }}
+          SSL_CERTIFICATE: ${{ secrets.SSL_CERTIFICATE }}
+        run: |
+          # Create SSL directories
+          mkdir -p ssl/private ssl/certs
+          
+          # Save SSL files
+          echo "$SSL_PRIVATE_KEY" > ssl/private/app.soulsanctuary.cloud.key
+          echo "$SSL_CERTIFICATE" > ssl/certs/app.soulsanctuary.cloud.crt
+          
+          # Set correct permissions
+          chmod 600 ssl/private/app.soulsanctuary.cloud.key
+          chmod 644 ssl/certs/app.soulsanctuary.cloud.crt
           
       - name: Deploy to DigitalOcean
         uses: digitalocean/app_action@main
