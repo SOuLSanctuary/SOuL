@@ -39,12 +39,18 @@ jobs:
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
           SESSION_SECRET: ${{ secrets.SESSION_SECRET }}
           COOKIE_SECRET: ${{ secrets.COOKIE_SECRET }}
+          REACT_APP_API_URL: https://soulsanctuary.cloud
+          REACT_APP_WS_URL: wss://soulsanctuary.cloud
         run: |
           cd app
           rm -rf node_modules package-lock.json
           npm install --legacy-peer-deps --force
           npm install --save ajv@8.12.0 ajv-keywords@5.1.0 ajv-formats@2.1.1 schema-utils@4.2.0
           NODE_OPTIONS="--max-old-space-size=4096" DISABLE_ESLINT_PLUGIN=true npm run build
+          
+          cd soulmate/server
+          npm install --legacy-peer-deps
+          cd ../..
           cd ..
           
       - name: Deploy to DigitalOcean

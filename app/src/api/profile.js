@@ -99,7 +99,9 @@ const calculateProfileXP = (profile) => {
 
 export const fetchProfile = async (walletAddress) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/api/profile/${walletAddress}`);
+    const response = await fetch(`${API_BASE_URL}/api/profile/${walletAddress}`, {
+      headers: addAuthTokenToHeaders()
+    });
     if (!response.ok) {
       if (response.status === 404) {
         return null; // Profile doesn't exist
@@ -117,14 +119,15 @@ export const createProfile = async (profileData) => {
   try {
     const response = await fetch(`${API_BASE_URL}/api/profile`, {
       method: 'POST',
-      headers: {
+      headers: addAuthTokenToHeaders({
         'Content-Type': 'application/json',
-      },
+      }),
       body: JSON.stringify(profileData),
     });
     
     if (!response.ok) {
-      throw new Error('Failed to create profile');
+      const error = await response.json().catch(() => ({}));
+      throw new Error(error.message || 'Failed to create profile');
     }
     
     return await response.json();
@@ -138,16 +141,17 @@ export const updateProfile = async (walletAddress, profileData) => {
   try {
     const response = await fetch(`${API_BASE_URL}/api/profile/${walletAddress}`, {
       method: 'PUT',
-      headers: {
+      headers: addAuthTokenToHeaders({
         'Content-Type': 'application/json',
-      },
+      }),
       body: JSON.stringify(profileData),
     });
-    
+
     if (!response.ok) {
-      throw new Error('Failed to update profile');
+      const error = await response.json().catch(() => ({}));
+      throw new Error(error.message || 'Failed to update profile');
     }
-    
+
     return await response.json();
   } catch (error) {
     console.error('Error updating profile:', error);

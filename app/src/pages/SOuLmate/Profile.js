@@ -3,7 +3,7 @@ import { useWallet } from '../../contexts/WalletContext';
 import { FaTwitter, FaEdit, FaSave, FaMedal, FaCoins, FaWallet } from 'react-icons/fa';
 import SOuLmateProfileForm from '../../components/SOuLmateProfileForm';
 import { WalletButton } from '../../components/WalletButton';
-import { fetchProfile, updateProfile } from '../../api/profile';
+import { fetchProfile, updateProfile, createProfile } from '../../api/profile';
 import '../../styles/SOuLmate.css';
 import {
   Box,
@@ -259,8 +259,19 @@ const SOuLmateProfile = () => {
         // Update wallet balance from context
         const walletBalance = tokenBalances.SOL.toFixed(4);
         
-        // Fetch or create profile
-        const data = await fetchProfile(publicKey.toString());
+        // Fetch profile
+        let data = await fetchProfile(publicKey.toString());
+        
+        // If profile doesn't exist, create one
+        if (!data) {
+          data = await createProfile({
+            walletAddress: publicKey.toString(),
+            walletBalance,
+            username: `user_${publicKey.toString().slice(0, 8)}`, // Temporary username
+            preferredName: 'SOuL Explorer' // Default name
+          });
+          setIsEditing(true); // Automatically open edit form for new users
+        }
         
         // Update profile with latest wallet balance
         const updatedProfile = await updateProfile(publicKey.toString(), {
