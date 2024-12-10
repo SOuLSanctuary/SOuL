@@ -32,12 +32,11 @@ jobs:
           SESSION_SECRET: ${{ secrets.SESSION_SECRET }}
           COOKIE_SECRET: ${{ secrets.COOKIE_SECRET }}
         run: |
-          npm ci
+          npm install --legacy-peer-deps
           cd app
           rm -rf node_modules package-lock.json
-          npm install --legacy-peer-deps
-          npm install ajv@^8.0.0 ajv-keywords@^5.0.0 --legacy-peer-deps
-          DISABLE_ESLINT_PLUGIN=true CI=false npm run build
+          npm install --legacy-peer-deps --force
+          DISABLE_ESLINT_PLUGIN=true CI=false NODE_OPTIONS=--max_old_space_size=4096 npm run build
           cd ..
           
       - name: Deploy to DigitalOcean
