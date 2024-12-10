@@ -19,14 +19,10 @@ jobs:
           node-version: '18'
           cache: 'npm'
           
-      - name: Generate package-lock.json
-        working-directory: ./app
+      - name: Install Dependencies
         run: |
-          rm -f package-lock.json
           npm install
-          
-      - name: Install Root Dependencies
-        run: npm install
+          cd app && npm install
         
       - name: Build
         working-directory: ./app
