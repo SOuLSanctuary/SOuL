@@ -1,0 +1,7 @@
+[auth]
+token=your-auth-token-here
+
+[defaults]
+url=https://sentry.io/
+org=soul-sanctuary
+project=soul-sanctuary-react

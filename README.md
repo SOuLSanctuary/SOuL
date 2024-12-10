@@ -115,6 +115,41 @@ Key test areas:
 - User interactions
 - Achievement system
 
+## Deployment
+
+### Production Environment
+The production environment is hosted on Vercel with the following configurations:
+- Main domain: https://soulsanctuary.io
+- Production API: https://api.soulsanctuary.io
+- Solana Network: Mainnet Beta
+
+### Required Environment Variables
+```env
+REACT_APP_WS_URL=wss://api.soulsanctuary.io
+REACT_APP_SOLANA_NETWORK=mainnet-beta
+REACT_APP_API_URL=https://api.soulsanctuary.io
+REACT_APP_SOLANA_RPC_HOST=https://api.mainnet-beta.solana.com
+REACT_APP_SENTRY_DSN=[your-sentry-dsn]
+```
+
+### Deployment Process
+1. Push changes to the `main` branch
+2. GitHub Actions will automatically:
+   - Run tests
+   - Create production build
+   - Deploy to Vercel
+   - Create Sentry release
+
+### Monitoring
+- Error tracking: Sentry (https://sentry.io)
+- Performance monitoring: Vercel Analytics
+
+### Security
+- SSL/TLS encryption enabled
+- Security headers configured
+- CSP policies implemented
+- Regular security audits
+
 ## Tech Stack
 
 - **Frontend**: React.js

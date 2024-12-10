@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { useWallet } from './contexts/WalletContext';
 import { WalletProvider } from './contexts/WalletContext';
 import { XPProvider } from './contexts/XPContext';
 import { BadgeProvider } from './contexts/BadgeContext';
 import { ProfileProvider } from './contexts/ProfileContext';
+import * as Sentry from '@sentry/react';
+import { initSentry } from './utils/sentry';
 import Navigation from './components/Navigation';
 import Dashboard from './pages/Dashboard';
 import Collector from './pages/Collector';
@@ -23,10 +25,23 @@ import SOuLmateSocial from './pages/SOuLmate/Social';
 import './styles/App.css';
 
 function AppContent() {
-  const { connected } = useWallet();
+  const { wallet } = useWallet();
+
+  useEffect(() => {
+    // Initialize Sentry
+    initSentry();
+    
+    // Log user information to Sentry if available
+    if (wallet?.publicKey) {
+      Sentry.setUser({
+        id: wallet.publicKey.toString(),
+        username: wallet.publicKey.toString().slice(0, 8)
+      });
+    }
+  }, [wallet]);
 
   return (
-    <div className={`app ${!connected ? 'wallet-not-connected' : ''}`}>
+    <div className={`app ${!wallet?.connected ? 'wallet-not-connected' : ''}`}>
       <Navigation />
       <main className="main-content">
         <Switch>

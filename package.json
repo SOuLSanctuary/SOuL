@@ -4,15 +4,20 @@
   "description": "SOuL Sanctuary Web Application",
   "main": "server/src/server.js",
   "scripts": {
-    "start": "node server/src/server.js",
+    "start": "node -r dotenv/config server/src/server.js dotenv_config_path=.env.production",
     "build": "cd app && npm install --legacy-peer-deps && npm run build",
-    "dev": "nodemon server/src/server.js",
+    "dev": "nodemon -r dotenv/config server/src/server.js dotenv_config_path=.env.development",
+    "start:prod": "node -r dotenv/config server/src/server.js dotenv_config_path=.env.production",
+    "start:dev": "node -r dotenv/config server/src/server.js dotenv_config_path=.env.development",
     "postinstall": "cd app && npm install --legacy-peer-deps"
   },
   "engines": {
     "node": ">=14.0.0"
   },
   "dependencies": {
+    "cross-env": "^7.0.3",
+    "dotenv": "^16.4.7",
+    "dotenv-expand": "^12.0.1",
     "express": "^4.17.1",
     "jsonwebtoken": "^9.0.0",
     "path": "^0.12.7",

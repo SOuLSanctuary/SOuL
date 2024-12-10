@@ -1,0 +1,57 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "build"
+      }
+    },
+    {
+      "src": "src/server.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "env": {
+    "REACT_APP_WS_URL": "wss://app.soulsanctuary.cloud",
+    "REACT_APP_SOLANA_NETWORK": "mainnet-beta",
+    "REACT_APP_API_URL": "https://app.soulsanctuary.cloud",
+    "REACT_APP_SOLANA_RPC_HOST": "https://api.mainnet-beta.solana.com",
+    "GENERATE_SOURCEMAP": "false",
+    "REACT_APP_ENV": "production",
+    "MONGODB_URI": "@mongodb_uri",
+    "JWT_SECRET": "@jwt_secret",
+    "REDIS_URL": "@redis_url",
+    "AWS_ACCESS_KEY_ID": "@aws_access_key_id",
+    "AWS_SECRET_ACCESS_KEY": "@aws_secret_access_key",
+    "AWS_REGION": "@aws_region",
+    "AWS_S3_BUCKET": "@aws_s3_bucket"
+  },
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "src/server.js"
+    },
+    {
+      "src": "/ws",
+      "dest": "src/server.js"
+    },
+    {
+      "src": "/static/(.*)",
+      "headers": { "cache-control": "public, max-age=31536000, immutable" }
+    },
+    {
+      "src": "/favicon.ico",
+      "dest": "/favicon.ico"
+    },
+    {
+      "src": "/manifest.json",
+      "dest": "/manifest.json"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
+  ]
+}

@@ -8,6 +8,16 @@ const { logInfo, logError, logWarning } = require('./utils/logger');
 const app = express();
 const port = process.env.PORT || 3000;
 
+// Health check endpoint
+app.get('/health', (req, res) => {
+  res.status(200).json({
+    status: 'healthy',
+    timestamp: new Date().toISOString(),
+    environment: process.env.NODE_ENV,
+    version: process.env.API_VERSION
+  });
+});
+
 // Error handling middleware
 app.use((err, req, res, next) => {
   logError('Server Error:', err);
@@ -34,20 +44,6 @@ app.use((req, res, next) => {
   res.setHeader('X-Frame-Options', 'SAMEORIGIN');
   res.setHeader('X-XSS-Protection', '1; mode=block');
   next();
-});
-
-// Health check endpoint
-app.get('/health', (req, res) => {
-  const health = { 
-    status: 'healthy', 
-    timestamp: new Date().toISOString(),
-    uptime: process.uptime(),
-    version: process.version,
-    memory: process.memoryUsage(),
-    environment: process.env.NODE_ENV || 'development'
-  };
-  logInfo('Health check passed', health);
-  res.status(200).json(health);
 });
 
 // Request logging middleware
