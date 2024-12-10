@@ -12,6 +12,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Debug - Print Working Directory
+        run: |
+          pwd
+          ls -la
+
       - name: Deploy to DigitalOcean
         uses: easingthemes/ssh-deploy@main
         env:
@@ -19,11 +24,18 @@ jobs:
           REMOTE_HOST: ${{ secrets.DROPLET_IP }}
           REMOTE_USER: root
           TARGET: /var/www/soulsanctuary
-        with:
+          SCRIPT_BEFORE: |
+            echo "Starting deployment..."
+            whoami
+            pwd
           SCRIPT_AFTER: |
+            echo "Deploying to /var/www/soulsanctuary..."
             cd /var/www/soulsanctuary
             git fetch origin master
             git reset --hard origin/master
+            echo "Installing dependencies..."
             cd server
             npm install
+            echo "Restarting server..."
             pm2 restart soulsanctuary-backend || pm2 start src/server.js --name soulsanctuary-backend
+            echo "Deployment completed successfully"
