@@ -1,0 +1,34 @@
+name: Deploy to DigitalOcean
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install SSH key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          known_hosts: unnecessary
+          if_key_exists: replace
+          key_type: ed25519
+
+      - name: Adding Known Hosts
+        run: ssh-keyscan -H ${{ secrets.DROPLET_IP }} >> ~/.ssh/known_hosts
+
+      - name: Deploy to DigitalOcean
+        run: |
+          ssh root@${{ secrets.DROPLET_IP }} '
+            cd /var/www/soulsanctuary &&
+            git pull origin main &&
+            cd server &&
+            npm install &&
+            pm2 restart soulsanctuary-backend
+          '
