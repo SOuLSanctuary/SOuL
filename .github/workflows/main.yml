@@ -1,48 +1,51 @@
-name: CI/CD
+name: Deploy to DigitalOcean
 
 on:
   push:
-    branches: [ main ]
+    branches: [ master ]
   pull_request:
-    branches: [ main ]
+    branches: [ master ]
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Setup Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
-          node-version: '16'
+          node-version: '18'
+          cache: 'npm'
 
-      - name: Install Dependencies
-        run: |
-          cd app
-          npm install
+      - name: Install Root Dependencies
+        run: npm ci
 
-      - name: Run Tests
+      - name: Install App Dependencies
+        working-directory: ./app
         run: |
-          cd app
-          npm test -- --watchAll=false
+          npm ci
+          npm install --save-dev @babel/plugin-proposal-private-property-in-object@7.21.11
 
-      - name: Build
-        run: |
-          cd app
-          npm run build:production
+      - name: Build Application
         env:
-          REACT_APP_WS_URL: ${{ secrets.REACT_APP_WS_URL }}
-          REACT_APP_SOLANA_NETWORK: ${{ secrets.REACT_APP_SOLANA_NETWORK }}
-          REACT_APP_API_URL: ${{ secrets.REACT_APP_API_URL }}
-          REACT_APP_SOLANA_RPC_HOST: ${{ secrets.REACT_APP_SOLANA_RPC_HOST }}
+          CI: false
+          NODE_ENV: production
+          DISABLE_ESLINT_PLUGIN: true
+        run: npm run build
 
-      - name: Deploy to Vercel
-        uses: amondnet/vercel-action@v20
+      - name: Deploy to DigitalOcean
+        uses: digitalocean/app-action@main
         with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
-          working-directory: ./app
-          vercel-args: '--prod'
+          app_name: soul-sanctuary
+          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+          images: |
+            [
+              {
+                "name": "soul-sanctuary",
+                "registry": "registry.digitalocean.com",
+                "repository": "soul-sanctuary",
+                "tag": "${{ github.sha }}"
+              }
+            ]

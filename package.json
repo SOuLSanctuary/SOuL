@@ -5,11 +5,11 @@
   "main": "server/src/server.js",
   "scripts": {
     "start": "node -r dotenv/config server/src/server.js dotenv_config_path=.env.production",
-    "build": "cd app && npm install --legacy-peer-deps && npm run build",
+    "build": "cd app && npm ci && DISABLE_ESLINT_PLUGIN=true CI=false npm run build",
     "dev": "nodemon -r dotenv/config server/src/server.js dotenv_config_path=.env.development",
     "start:prod": "node -r dotenv/config server/src/server.js dotenv_config_path=.env.production",
     "start:dev": "node -r dotenv/config server/src/server.js dotenv_config_path=.env.development",
-    "postinstall": "cd app && npm install --legacy-peer-deps"
+    "postinstall": "cd app && npm ci"
   },
   "engines": {
     "node": ">=14.0.0"
