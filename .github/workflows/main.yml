@@ -19,28 +19,33 @@ jobs:
           node-version: '18'
           cache: 'npm'
           
+      - name: Generate package-lock.json
+        working-directory: ./app
+        run: |
+          rm -f package-lock.json
+          npm install
+          
       - name: Install Root Dependencies
         run: npm install
         
-      - name: Install App Dependencies
-        working-directory: ./app
-        run: |
-          npm install
-          npm install --save-dev @babel/plugin-proposal-private-property-in-object@7.21.11
-          npm install --save-dev @jest/transform@29.7.0
-          npm install --save-dev babel-jest@29.7.0
-          npm install --save-dev babel-preset-jest@29.6.3
-          npm install --save-dev write-file-atomic@4.0.2
-          npm install --save-dev babel-plugin-jest-hoist@29.6.3
-        
       - name: Build
         working-directory: ./app
-        run: |
-          DISABLE_ESLINT_PLUGIN=true CI=false npm run build
+        env:
+          CI: false
+          DISABLE_ESLINT_PLUGIN: true
+        run: npm run build
           
-      - name: Deploy to Digital Ocean
-        uses: digitalocean/app_action@v1.1.5
+      - name: Deploy to DigitalOcean
+        uses: digitalocean/app_action@main
         with:
           app_name: soul-sanctuary
           token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
-          images: '[{"name": "soul-sanctuary", "registry_type": "DOCKER_HUB"}]'
+          images: |
+            [
+              {
+                "name": "soul-sanctuary",
+                "registry": "registry.digitalocean.com",
+                "repository": "soul-sanctuary",
+                "tag": "${{ github.sha }}"
+              }
+            ]
