@@ -13,24 +13,17 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Deploy to DigitalOcean
-        uses: appleboy/ssh-action@v1.0.0
+        uses: easingthemes/ssh-deploy@main
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          REMOTE_HOST: ${{ secrets.DROPLET_IP }}
+          REMOTE_USER: root
+          TARGET: /var/www/soulsanctuary
         with:
-          host: ${{ secrets.DROPLET_IP }}
-          username: root
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: 22
-          debug: true
-          script: |
-            set -ex
-            echo "Starting deployment..."
-            cd /var/www/soulsanctuary || exit 1
-            echo "Current directory: $(pwd)"
-            echo "Fetching latest changes..."
+          SCRIPT_AFTER: |
+            cd /var/www/soulsanctuary
             git fetch origin master
             git reset --hard origin/master
-            echo "Installing dependencies..."
-            cd server || exit 1
+            cd server
             npm install
-            echo "Restarting server..."
             pm2 restart soulsanctuary-backend || pm2 start src/server.js --name soulsanctuary-backend
-            echo "Deployment completed successfully"
