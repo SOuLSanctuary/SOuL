@@ -23,12 +23,23 @@ jobs:
       - name: Adding Known Hosts
         run: ssh-keyscan -H ${{ secrets.DROPLET_IP }} >> ~/.ssh/known_hosts
 
+      - name: Check SSH Connection
+        run: ssh -v root@${{ secrets.DROPLET_IP }} 'echo "SSH Connection Successful"'
+
       - name: Deploy to DigitalOcean
         run: |
           ssh root@${{ secrets.DROPLET_IP }} '
-            cd /var/www/soulsanctuary &&
-            git pull origin master &&
-            cd server &&
-            npm install &&
-            pm2 restart soulsanctuary-backend
+            set -e
+            echo "Starting deployment..."
+            cd /var/www/soulsanctuary || exit 1
+            echo "Current directory: $(pwd)"
+            echo "Fetching latest changes..."
+            git fetch origin master
+            git reset --hard origin/master
+            echo "Installing dependencies..."
+            cd server || exit 1
+            npm install
+            echo "Restarting server..."
+            pm2 restart soulsanctuary-backend || pm2 start src/server.js --name soulsanctuary-backend
+            echo "Deployment completed successfully"
           '
