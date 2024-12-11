@@ -1,0 +1,14 @@
+name: soul-sanctuary
+services:
+  - name: web
+    github:
+      branch: master
+      deploy_on_push: true
+    build_command: npm run build:production
+    run_command: npm run serve:production
+    environment_slug: node-js
+    envs:
+      - key: NODE_ENV
+        value: production
+    routes:
+      - path: /
