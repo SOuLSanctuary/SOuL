@@ -18,9 +18,9 @@ async function setupAll() {
     // 2. Environment Variables
     console.log('\n🔐 Setting up environment variables...');
     const envVars = {
-      'REACT_APP_WS_URL': 'wss://api.soulsanctuary.io',
+      'REACT_APP_WS_URL': 'wss://soulsanctuary.cloud',
       'REACT_APP_SOLANA_NETWORK': 'mainnet-beta',
-      'REACT_APP_API_URL': 'https://api.soulsanctuary.io',
+      'REACT_APP_API_URL': 'https://soulsanctuary.cloud',
       'REACT_APP_SOLANA_RPC_HOST': 'https://api.mainnet-beta.solana.com'
     };
 

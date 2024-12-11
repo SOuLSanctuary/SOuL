@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/static/css/main.704d3e06.css",
+    "main.js": "/static/js/main.62aa616e.js",
+    "static/media/Forest background.gif": "/static/media/Forest background.2a6474fa7e0836883d53.gif",
+    "index.html": "/index.html",
+    "static/media/tree-marker.svg": "/static/media/tree-marker.78611da341dfcae0d4e03a7360096915.svg"
+  },
+  "entrypoints": [
+    "static/css/main.704d3e06.css",
+    "static/js/main.62aa616e.js"
+  ]
+}

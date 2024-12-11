@@ -12,8 +12,8 @@ const port = process.env.PORT || 3001;
 
 // Configure CORS based on environment
 const allowedOrigins = process.env.NODE_ENV === 'production'
-  ? ['https://soulsanctuary.cloud']
-  : ['http://localhost:3000', 'http://localhost:3006'];
+  ? ['https://soulsanctuary.cloud', 'https://www.soulsanctuary.cloud']
+  : ['http://localhost:3000', 'http://localhost:3006']
 
 app.use(cors({
   origin: (origin, callback) => {
