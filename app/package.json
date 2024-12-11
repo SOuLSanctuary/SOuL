@@ -57,9 +57,7 @@
     "eject": "react-scripts eject",
     "analyze": "source-map-explorer 'build/static/js/*.js'",
     "serve:production": "serve -s build",
-    "deploy": "vercel --prod",
-    "setup:domain": "node scripts/setup-domain.js",
-    "setup:production": "npm run build:production && npm run deploy && npm run setup:domain",
+    "setup:production": "npm run build:production",
     "setup:all": "node scripts/setup-all.js"
   },
   "eslintConfig": {
