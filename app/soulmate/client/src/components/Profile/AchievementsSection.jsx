@@ -39,7 +39,7 @@ const AchievementsSection = ({ profile, achievements, badges }) => {
   const [referralStats, setReferralStats] = useState({
     totalReferrals: 0,
     totalXPEarned: 0,
-    referralLink: `https://soulsanctuary.io/ref/${profile?.walletAddress}`
+    referralLink: `https://soulsanctuary.cloud/ref/${profile?.walletAddress}`
   });
 
   const handleQuestAction = async (quest) => {

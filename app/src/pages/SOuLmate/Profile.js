@@ -99,7 +99,7 @@ const ReferralQuest = ({ walletAddress }) => {
   const [referralStats, setReferralStats] = useState({
     totalReferrals: 0,
     totalXPEarned: 0,
-    referralLink: `https://soulsanctuary.io/ref/${walletAddress}`,
+    referralLink: `https://soulsanctuary.cloud/ref/${walletAddress}`,
     referredUsers: []
   });
 
