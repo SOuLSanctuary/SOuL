@@ -52,13 +52,11 @@
     "server": "node src/server.js",
     "dev": "concurrently \"npm run start\" \"npm run server\"",
     "build": "react-scripts build",
-    "build:production": "react-scripts build",
+    "build:production": "GENERATE_SOURCEMAP=false react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "analyze": "source-map-explorer 'build/static/js/*.js'",
-    "serve:production": "serve -s build",
-    "setup:production": "npm run build:production",
-    "setup:all": "node scripts/setup-all.js"
+    "serve:production": "serve -s build"
   },
   "eslintConfig": {
     "extends": [

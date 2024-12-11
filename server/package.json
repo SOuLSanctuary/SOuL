@@ -6,6 +6,12 @@
   "scripts": {
     "start": "node src/server.js",
     "dev": "NODE_ENV=development nodemon src/server.js",
+    "pm2:start": "pm2 start src/server.js --name soul-sanctuary",
+    "pm2:restart": "pm2 restart soul-sanctuary",
+    "pm2:stop": "pm2 stop soul-sanctuary",
+    "pm2:delete": "pm2 delete soul-sanctuary",
+    "pm2:logs": "pm2 logs soul-sanctuary",
+    "pm2:status": "pm2 status",
     "build": "echo 'No build step required'",
     "deploy": "bash deploy.sh",
     "deploy:prod": "NODE_ENV=production npm run deploy"

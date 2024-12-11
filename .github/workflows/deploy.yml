@@ -1,9 +1,8 @@
-name: Deploy to DigitalOcean
+name: Production Deployment
 
 on:
   push:
-    branches:
-      - master
+    branches: [ master ]
 
 jobs:
   deploy:
@@ -12,30 +11,45 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Debug - Print Working Directory
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18'
+
+      - name: Install and Build Frontend
+        working-directory: ./app
         run: |
-          pwd
-          ls -la
+          npm ci
+          npm run build:production
+        env:
+          REACT_APP_WS_URL: 'wss://soulsanctuary.cloud/ws'
+          REACT_APP_API_URL: 'https://soulsanctuary.cloud/api'
+          REACT_APP_SOLANA_NETWORK: 'mainnet-beta'
+          REACT_APP_SOLANA_RPC_HOST: ${{ secrets.REACT_APP_SOLANA_RPC_HOST }}
 
       - name: Deploy to DigitalOcean
-        uses: easingthemes/ssh-deploy@main
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          REMOTE_HOST: ${{ secrets.DROPLET_IP }}
-          REMOTE_USER: root
-          TARGET: /var/www/soulsanctuary
-          SCRIPT_BEFORE: |
-            echo "Starting deployment..."
-            whoami
-            pwd
-          SCRIPT_AFTER: |
-            echo "Deploying to /var/www/soulsanctuary..."
-            cd /var/www/soulsanctuary
-            git fetch origin master
-            git reset --hard origin/master
-            echo "Installing dependencies..."
-            cd server
-            npm install
-            echo "Restarting server..."
-            pm2 restart soulsanctuary-backend || pm2 start src/server.js --name soulsanctuary-backend
-            echo "Deployment completed successfully"
+        uses: appleboy/scp-action@master
+        with:
+          host: '152.42.184.16'
+          username: 'root'
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          source: "app/build/*,server/*"
+          target: "/var/www/soulsanctuary"
+          strip_components: 1
+
+      - name: Execute Deployment Commands
+        uses: appleboy/ssh-action@master
+        with:
+          host: '152.42.184.16'
+          username: 'root'
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            # Deploy frontend
+            rm -rf /var/www/html/*
+            cp -r /var/www/soulsanctuary/build/* /var/www/html/
+            
+            # Deploy backend
+            cd /var/www/soulsanctuary/server
+            npm ci --production
+            pm2 restart soul-sanctuary || pm2 start src/server.js --name soul-sanctuary --env production
+            pm2 save
